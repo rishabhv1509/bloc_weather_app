@@ -5,12 +5,12 @@ import 'package:weather_app/screens/home_page.dart';
 import 'package:weather_app/services/location_service.dart';
 import 'package:weather_app/services/size_config.dart';
 
-class SplasScreen extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
-  _SplasScreenState createState() => _SplasScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplasScreenState extends State<SplasScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();

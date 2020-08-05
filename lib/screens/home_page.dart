@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    print('object');
     return Scaffold(
       backgroundColor: Color(0xff324098),
       appBar: AppBar(
@@ -37,24 +38,61 @@ class _HomePageState extends State<HomePage> {
       ),
       body: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, state) {
-          if (state is LocationFetched) {
+          if (state is LocationFetchSuccess) {
             LocationData location = state.location;
             return BlocBuilder<WeatherBloc, WeatherState>(
                 builder: (context, state) {
               context.bloc<WeatherBloc>().add(
-                    GetWeatherForecast(location: location),
+                    WeatherFetchedByLocation(location: location),
                   );
-              if (state is WeatherFetched) {
+              if (state is WeatherFetchSuccess) {
                 return WeatherDetails(weather: state.weather);
+              } else if (state is WeatherFetchFailure) {
+                return Center(
+                  child: Text(
+                    'Some error occurred in fetching weather',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30.toFont,
+                    ),
+                  ),
+                );
               } else {
-                return Container(
-                  color: Colors.green,
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CircularProgressIndicator(),
+                      SizedBox(height: 10.toHeight),
+                      Text(
+                        'Fetching Weather',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.toFont,
+                        ),
+                      )
+                    ],
+                  ),
                 );
               }
             });
-          } else if (state is LocationLoading) {
+          } else if (state is LocationFetchInProgress) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                  SizedBox(height: 10.toHeight),
+                  Text(
+                    'Fetching Location',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15.toFont,
+                    ),
+                  )
+                ],
+              ),
             );
           } else {
             return Center(

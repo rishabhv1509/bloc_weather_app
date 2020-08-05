@@ -11,10 +11,12 @@ class WeatherDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime dateTime = DateTime.parse(weather.current.lastUpdated.toString());
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         Center(
           child: Text(
             '${weather.location.name}',
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -45,6 +47,11 @@ class WeatherDetails extends StatelessWidget {
                 fontSize: 20.toFont,
               ),
             ),
+            Image.network(
+              'https:${weather.current.condition.icon}',
+              width: 40,
+              height: 40,
+            ),
             Column(
               children: <Widget>[
                 Text(
@@ -70,16 +77,74 @@ class WeatherDetails extends StatelessWidget {
         SizedBox(
           height: 80.toHeight,
         ),
+        Text(
+          '3 Days Forecast',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20.toFont,
+          ),
+        ),
         Container(
-          height: 30.toHeight,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: weather.forecast.forecastday.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  child: Text(weather.forecast.forecastday[index].date),
-                );
-              }),
+          height: 200.toHeight,
+          child: ListView.separated(
+            itemCount: weather.forecast.forecastday.length,
+            separatorBuilder: (context, index) => SizedBox(
+              width: 10.toWidth,
+            ),
+            padding: EdgeInsets.all(20),
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              DateTime date =
+                  DateTime.parse(weather.forecast.forecastday[index].date);
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('${date.day} /${date.month}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.toFont,
+                      )),
+                  Text(
+                    'Max: ${weather.forecast.forecastday[index].day.maxtempC}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15.toFont,
+                    ),
+                  ),
+                  Text(
+                    'Min: ${weather.forecast.forecastday[index].day.mintempC}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15.toFont,
+                    ),
+                  ),
+                  Container(
+                    width: 120,
+                    child: Text(
+                      '${weather.forecast.forecastday[index].day.condition.text}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.toFont,
+                      ),
+                    ),
+                  ),
+                  Image.network(
+                    'https:${weather.forecast.forecastday[index].day.condition.icon}',
+                    width: 40,
+                    height: 40,
+                  ),
+                ],
+              );
+            },
+          ),
         )
       ],
     );

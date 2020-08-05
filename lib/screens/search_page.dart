@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/bloc/weather_bloc/weather_bloc.dart';
 import 'package:weather_app/services/size_config.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
+  @override
+  _SearchPageState createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  TextEditingController _searchController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    _searchController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController _searchController = TextEditingController();
     return Scaffold(
       backgroundColor: Color(0xff324098),
       appBar: AppBar(
@@ -34,10 +47,18 @@ class SearchPage extends StatelessWidget {
               ),
               // SizedBox(width: 30.toWidth),
               FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Ok'))
+                onPressed: () {
+                  Navigator.pop(context);
+
+                  context.bloc<WeatherBloc>()
+                    ..add(WeatherFetchedByCity(city: _searchController.text));
+                  _searchController.clear();
+                },
+                child: Text(
+                  'Ok',
+                  style: TextStyle(color: Colors.white, fontSize: 30.toFont),
+                ),
+              )
             ],
           ),
         ),

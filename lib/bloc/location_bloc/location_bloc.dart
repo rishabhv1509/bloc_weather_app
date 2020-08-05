@@ -16,20 +16,20 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     LocationEvent event,
   ) async* {
     LocationState currentState = state;
-    if (event is FetchLocation) {
+    if (event is LocationFetched) {
       try {
         if (currentState is LocationInitial) {
-          yield LocationLoading();
+          yield LocationFetchInProgress();
           if (_locationService.serviceEnabled &&
               _locationService.permissionGranted == PermissionStatus.granted) {
             await _locationService.getLocation();
-            yield LocationFetched(location: _locationService.locationData);
+            yield LocationFetchSuccess(location: _locationService.locationData);
           } else {
-            yield LocationError();
+            yield LocationFetchFailure();
           }
         }
       } catch (e) {
-        LocationError();
+        LocationFetchFailure();
       }
     }
   }

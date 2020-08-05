@@ -5,16 +5,16 @@ abstract class WeatherState {}
 
 class WeatherInitial extends WeatherState {}
 
-class LoadingWeather extends WeatherState {}
+class WeatherFetchInProgress extends WeatherState {}
 
-class WeatherError extends WeatherState {}
+class WeatherFetchFailure extends WeatherState {}
 
-class WeatherFetched extends WeatherState {
+class WeatherFetchSuccess extends WeatherState {
   final WeatherForecast weather;
 
-  WeatherFetched({this.weather});
-  WeatherFetched copyWith() {
-    return WeatherFetched(
+  WeatherFetchSuccess({this.weather});
+  WeatherFetchSuccess copyWith() {
+    return WeatherFetchSuccess(
       weather: weather ?? this.weather,
     );
   }

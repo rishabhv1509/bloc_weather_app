@@ -3,8 +3,14 @@ part of 'weather_bloc.dart';
 @immutable
 abstract class WeatherEvent {}
 
-class GetWeatherForecast extends WeatherEvent {
+class WeatherFetchedByLocation extends WeatherEvent {
   final LocationData location;
+
+  WeatherFetchedByLocation({this.location});
+}
+
+class WeatherFetchedByCity extends WeatherEvent {
   final String city;
-  GetWeatherForecast({this.location, this.city});
+
+  WeatherFetchedByCity({this.city});
 }

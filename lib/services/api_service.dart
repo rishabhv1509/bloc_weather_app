@@ -21,11 +21,12 @@ class ApiServices {
     try {
       String url = '$baseUrl/forecast.json?key=$_apiKey&q=$city&days=7';
       final response = await http.get(url);
-      if (response.statusCode >= 200 && response.statusCode < 400) {
-        return jsonDecode(response.body);
-      } else {
+      if (response.statusCode == 200) {
         return jsonDecode(response.body);
       }
+      // else {
+      //   return jsonDecode(response.body);
+      // }
     } catch (e) {}
   }
 }

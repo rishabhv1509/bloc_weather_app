@@ -8,7 +8,7 @@ void main() {
   runApp(MultiBlocProvider(providers: [
     BlocProvider<LocationBloc>(
       create: (context) {
-        return LocationBloc()..add(FetchLocation());
+        return LocationBloc()..add(LocationFetched());
       },
     ),
     BlocProvider<WeatherBloc>(
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplasScreen(),
+      home: SplashScreen(),
     );
   }
 }

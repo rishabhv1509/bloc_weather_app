@@ -1,5 +1,7 @@
 # weather_app
 
+![Weather App Demo](assets/demo.gif)
+
 A new Flutter project.
 
 ## Getting Started

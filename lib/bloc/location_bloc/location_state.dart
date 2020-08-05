@@ -5,15 +5,15 @@ abstract class LocationState {}
 
 class LocationInitial extends LocationState {}
 
-class LocationLoading extends LocationState {}
+class LocationFetchInProgress extends LocationState {}
 
-class LocationFetched extends LocationState {
+class LocationFetchSuccess extends LocationState {
   final LocationData location;
 
-  LocationFetched({this.location});
-  LocationFetched copyWith() {
-    return LocationFetched(location: location ?? this.location);
+  LocationFetchSuccess({this.location});
+  LocationFetchSuccess copyWith() {
+    return LocationFetchSuccess(location: location ?? this.location);
   }
 }
 
-class LocationError extends LocationState {}
+class LocationFetchFailure extends LocationState {}

@@ -27,8 +27,8 @@ class LocationService {
   }
 
   getLocation() async {
+    location.changeSettings(accuracy: LocationAccuracy.high);
     locationData = await location.getLocation();
-    print('lol   $locationData');
     return locationData;
   }
 }
