@@ -19,8 +19,10 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff324098),
+      backgroundColor: Color(0xff355070),
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text('Please search your city here'),
       ),
       body: Center(

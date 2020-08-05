@@ -34,7 +34,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     } else if (event is WeatherFetchedByCity) {
       try {
         if (currentState is WeatherFetchSuccess ||
-            currentState is WeatherInitial) {
+            currentState is WeatherInitial ||
+            currentState is WeatherFetchFailure) {
           yield WeatherFetchInProgress();
           var weatherResponse =
               await ApiServices().getCityWeatherForecast(event.city);

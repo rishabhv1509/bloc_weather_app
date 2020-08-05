@@ -30,6 +30,7 @@ dependencies:
   location: ^3.0.0
   http: ^0.12.2
   flutter_bloc: ^5.0.1
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +62,9 @@ flutter:
     - family: Raleway
       fonts:
         - asset: assets/fonts/Raleway.ttf
+    - family: Neuro
+      fonts:
+        - asset: assets/fonts/Neuro.ttf
         # - asset: fonts/Schyler-Italic.ttf
         #   style: italic
     # - family: Trajan Pro

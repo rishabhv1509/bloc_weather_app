@@ -1,145 +1,121 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/models/weather_forecast.dart';
 import 'package:weather_app/services/size_config.dart';
+import 'package:intl/intl.dart';
 
 class WeatherDetails extends StatelessWidget {
   final WeatherForecast weather;
+  final Color textColor;
 
-  WeatherDetails({Key key, this.weather}) : super(key: key);
+  WeatherDetails({Key key, this.weather, @required this.textColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     DateTime dateTime = DateTime.parse(weather.current.lastUpdated.toString());
+    String formattedDate = DateFormat.MMMMEEEEd('en_US').format(dateTime);
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         Center(
           child: Text(
             '${weather.location.name}',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.white,
+              color: textColor,
               fontWeight: FontWeight.bold,
-              fontSize: 30.toFont,
+              fontSize: 40.toFont,
             ),
           ),
         ),
-        SizedBox(height: 5.toHeight),
+        SizedBox(height: 10.toHeight),
         Center(
           child: Text(
-            'Updated at ${dateTime.hour}:${dateTime.minute}',
+            formattedDate,
             style: TextStyle(
-              color: Colors.white,
+              color: textColor,
               fontWeight: FontWeight.bold,
               fontSize: 20.toFont,
             ),
           ),
         ),
         SizedBox(height: 50.toHeight),
+        Text(
+          '${weather.current.tempC.toString()}° C',
+          style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 70.toFont,
+              fontFamily: 'Neuro'),
+        ),
+        SizedBox(height: 20.toHeight),
+        Container(
+          height: 2,
+          child: ListView.separated(
+            separatorBuilder: (context, index) => SizedBox(width: 5.toHeight),
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: 15,
+            itemBuilder: (context, index) => Container(
+              width: 12,
+              color: textColor,
+            ),
+          ),
+        ),
+        SizedBox(height: 35.toHeight),
+        Center(
+          child: Text(
+            weather.current.condition.text,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 20.toFont,
+            ),
+          ),
+        ),
+        SizedBox(height: 15.toHeight),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              weather.current.tempC.toString(),
+              '${weather.forecast.forecastday[0].day.mintempC.toString()}° C / ${weather.forecast.forecastday[0].day.maxtempC.toString()} ° C',
               style: TextStyle(
-                color: Colors.white,
+                color: textColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 20.toFont,
               ),
             ),
-            Image.network(
-              'https:${weather.current.condition.icon}',
-              width: 40,
-              height: 40,
-            ),
-            Column(
-              children: <Widget>[
-                Text(
-                  'min ${weather.forecast.forecastday[0].day.mintempC.toString()}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.toFont,
-                  ),
-                ),
-                Text(
-                  'max ${weather.forecast.forecastday[0].day.maxtempC.toString()}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.toFont,
-                  ),
-                )
-              ],
-            )
           ],
         ),
         SizedBox(
-          height: 80.toHeight,
-        ),
-        Text(
-          '3 Days Forecast',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.toFont,
-          ),
+          height: 140.toHeight,
         ),
         Container(
-          height: 200.toHeight,
+          height: 100.toHeight,
           child: ListView.separated(
             itemCount: weather.forecast.forecastday.length,
             separatorBuilder: (context, index) => SizedBox(
               width: 10.toWidth,
             ),
-            padding: EdgeInsets.all(20),
+            // padding: EdgeInsets.all(20),
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              DateTime date =
-                  DateTime.parse(weather.forecast.forecastday[index].date);
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text('${date.day} /${date.month}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.toFont,
-                      )),
-                  Text(
-                    'Max: ${weather.forecast.forecastday[index].day.maxtempC}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15.toFont,
-                    ),
-                  ),
-                  Text(
-                    'Min: ${weather.forecast.forecastday[index].day.mintempC}',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15.toFont,
-                    ),
-                  ),
-                  Container(
-                    width: 120,
-                    child: Text(
-                      '${weather.forecast.forecastday[index].day.condition.text}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.toFont,
-                      ),
-                    ),
-                  ),
                   Image.network(
                     'https:${weather.forecast.forecastday[index].day.condition.icon}',
                     width: 40,
                     height: 40,
+                  ),
+                  Text(
+                    '${weather.forecast.forecastday[index].day.maxtempC}° C / ${weather.forecast.forecastday[index].day.mintempC}° C',
+                    style: TextStyle(
+                      color: textColor,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15.toFont,
+                    ),
                   ),
                 ],
               );
